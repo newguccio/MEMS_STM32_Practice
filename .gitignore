@@ -1,0 +1,20 @@
+# Foldery kompilacji
+[Dd]ebug/
+[Rr]elease/
+bin/
+obj/
+
+# Pliki konfiguracyjne
+.settings/
+.mxproject
+*.launch
+*.o
+*.d
+*.su
+*.p_args
+
+# Pliki binarne
+*.elf
+*.bin
+*.list
+*.map
