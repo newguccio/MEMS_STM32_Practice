@@ -53,11 +53,16 @@
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
 void MEMS_Init(void);
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+int _write(int fd, char * ptr, int len)
+{
+  HAL_UART_Transmit(&huart2,(uint8_t *)ptr,len,HAL_MAX_DELAY);
+  return len;
+}
 /* USER CODE END 0 */
 
 /**
@@ -91,6 +96,8 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
+  MEMS_Init();
+
 
   /* USER CODE END 2 */
 
@@ -98,6 +105,13 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  	IKS4A1_MOTION_SENSOR_AxesRaw_t axes;
+
+		IKS4A1_MOTION_SENSOR_GetAxesRaw(IKS4A1_LSM6DSV16X_0, MOTION_GYRO, &axes);
+		printf("GYRO DATA: %d %d %d \n", (int)axes.x, (int)axes.y, (int)axes.z); //typecasting tak na wszelki
+		IKS4A1_MOTION_SENSOR_GetAxesRaw(IKS4A1_LSM6DSV16X_0, MOTION_ACCELERO, &axes);
+		printf("ACCELERO DATA: %d %d %d \n", (int)axes.x, (int)axes.y, (int)axes.z);
+		HAL_Delay(100);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -148,6 +162,13 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 
+void MEMS_Init(void){
+
+	IKS4A1_MOTION_SENSOR_Init(IKS4A1_LSM6DSV16X_0, MOTION_ACCELERO|MOTION_GYRO); //bitwise opeartion | czyli poprostu dodajemy wartosci pod tymi nazwami
+	IKS4A1_MOTION_SENSOR_Enable(IKS4A1_LSM6DSV16X_0, MOTION_ACCELERO|MOTION_GYRO);
+	IKS4A1_MOTION_SENSOR_SetOutputDataRate(IKS4A1_LSM6DSV16X_0,MOTION_ACCELERO|MOTION_GYRO,30.0f);  // 30 Hz, to jest ustawienie predkosci ktore nie rownoznaczne z wzbudzeniem czujnika bo nadajemy mu wartosc odczytu
+
+}
 /* USER CODE END 4 */
 
 /**
