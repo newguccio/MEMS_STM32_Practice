@@ -108,7 +108,7 @@ int main(void)
 	  	IKS4A1_MOTION_SENSOR_AxesRaw_t axes;
 
 		IKS4A1_MOTION_SENSOR_GetAxesRaw(IKS4A1_LSM6DSV16X_0, MOTION_GYRO, &axes);
-		printf("GYRO DATA: %d %d %d \n", (int)axes.x, (int)axes.y, (int)axes.z); //typecasting tak na wszelki
+		printf("GYRO DATA: %d %d %d \n", (int)axes.x, (int)axes.y, (int)axes.z); 		//typecasting tak na wszelki
 		IKS4A1_MOTION_SENSOR_GetAxesRaw(IKS4A1_LSM6DSV16X_0, MOTION_ACCELERO, &axes);
 		printf("ACCELERO DATA: %d %d %d \n", (int)axes.x, (int)axes.y, (int)axes.z);
 		HAL_Delay(100);
@@ -177,6 +177,7 @@ void MEMS_Init(void){
   */
 void Error_Handler(void)
 {
+
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
   __disable_irq();
